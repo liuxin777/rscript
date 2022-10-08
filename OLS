@@ -1,0 +1,43 @@
+#R script
+#(1)Estimating coefficients
+#Creating dataset "dat"
+gpa=c(2.8,3.4,3.0,2.5,3.6,3.0,2.7,3.7)
+act=c(21,24,26,27,29,25,25,30)
+dat=data.frame(gpa,act)
+#Performing OLS using dat
+OLS=lm(gpa~act,dat)
+summary(OLS)
+#output:
+#Coefficients: 
+#             Estimate     SE      t-value  Pr(>|t|)
+#(Intercept)  0.95495    1.36697   0.699    0.511
+#act          0.08242    0.05255   1.568    0.168
+#截距项为0.95495，无实际含义
+#Calculating Δy
+Δy=5*OLS$coefficients[2]
+Δy
+#output:0.4120879
+#如果 ACT 分数上升 5 分， GPA 预期增加0.4120879分
+
+#(2)Checking Fitted values and residuals
+b0=OLS$coefficients[1]
+b1=OLS$coefficients[2]
+yhat=b0+b1*dat$act
+yhat
+#output:2.685714 2.932967 3.097802 3.180220 3.345055 3.015385 3.015385 3.427473
+#拟合方程为yhat=b0+b1ACT
+#拟合值为2.685714 2.932967 3.097802 3.180220 3.345055 3.015385 3.015385 3.427473
+OLS$residuals
+sum(OLS$residuals)
+#残差为：0.11428571  0.46703297 -0.09780220 -0.68021978  
+#        0.25494505 -0.01538462 -0.31538462  0.27252747
+#残差和为-1.734723e-16，为零
+
+#(3)
+b0+b1*20
+#预测值为2.603297
+
+#(4)
+summary(OLS)
+#output:Multiple R-squared:  0.2907,	Adjusted R-squared:  0.1725 
+#GPA 变动有29.07%可以被 ACT 变动解释
